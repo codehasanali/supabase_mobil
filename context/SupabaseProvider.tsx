@@ -20,8 +20,6 @@ const ExpoSecureStoreAdapter = {
 		SecureStore.deleteItemAsync(key);
 	},
 };
-
-// This hook will protect the route access based on user authentication.
 function useProtectedRoute(isLoggedIn: boolean) {
 	const segments = useSegments();
 	const router = useRouter();
@@ -30,14 +28,12 @@ function useProtectedRoute(isLoggedIn: boolean) {
 		const inAuthGroup = segments[0] === "(auth)";
 
 		if (
-			// If the user is not logged in and the initial segment is not anything in the auth group.
 			!isLoggedIn &&
 			!inAuthGroup
 		) {
 			// Redirect to the sign-up page.
 			router.replace("/sign-up");
 		} else if (isLoggedIn && inAuthGroup) {
-			// Redirect away from the sign-up page.
 			router.replace("/");
 		}
 	}, [isLoggedIn, segments]);
@@ -51,7 +47,7 @@ export const SupabaseProvider = (props: SupabaseProviderProps) => {
 	const [isLoggedIn, setLoggedIn] = React.useState<boolean>(false);
 	const [userProfile, setUserProfile] = React.useState(null);
 
-	const [session, setSession] = React.useState<Session | null>(null); // Add this line
+	const [session, setSession] = React.useState<Session | null>(null);
 
 
 	const supabase = createClient(supabaseUrl, supabaseKey, {
@@ -112,6 +108,8 @@ export const SupabaseProvider = (props: SupabaseProviderProps) => {
 
 
 
+
+
 	const getProfile = async () => {
 		try {
 			const session = await supabase.auth.getSession();
@@ -128,21 +126,21 @@ export const SupabaseProvider = (props: SupabaseProviderProps) => {
 			if (error && status !== 406) {
 				throw error;
 			}
+			console.log(error)
 
 			if (data) {
 				setUserProfile(data.username);
+				
 			}
 		} catch (error) {
 			alert((error as { message: string }).message);
 		}
 	};
-
-
-
-
-	
 	const getSession = async () => {
 		const result = await supabase.auth.getSession();
+		setLoggedIn(result.data.session !== null);
+
+
 		setSession(result.data.session);
 		if (result.data.session !== null) {
 			getProfile()
@@ -168,6 +166,7 @@ export const SupabaseProvider = (props: SupabaseProviderProps) => {
 				resetPasswordForEmail,
 				signOut,
 				session,
+				username:userProfile
 
 
 			}}

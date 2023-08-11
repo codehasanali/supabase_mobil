@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import { EmailOtpType, Session } from "@supabase/supabase-js";
+import { string } from "zod";
 
 type SupabaseContextProps = {
 	isLoggedIn: boolean;
@@ -13,6 +14,7 @@ type SupabaseContextProps = {
 	resetPasswordForEmail: (email: string) => Promise<void>;
 	signOut: () => Promise<void>;
 	session:Session |null;
+	username:string |null;
 
 };
 
@@ -24,5 +26,6 @@ export const SupabaseContext = createContext<SupabaseContextProps>({
 	resetPasswordForEmail: async () => {},
 	signOut: async () => {},
 	session: null,
+	username: null,
 	
 });

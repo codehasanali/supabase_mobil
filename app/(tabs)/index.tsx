@@ -3,19 +3,24 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import { useSupabase } from "@/context/useSupabase";
 import { StatusBar } from 'expo-status-bar';
 
-import { useFonts, Inter_900Black, Inter_700Bold } from '@expo-google-fonts/inter';
+import { useFonts,  Inter_700Bold } from '@expo-google-fonts/inter';
 
 
 export default function TabOneScreen() {
 
-  const { signOut,session} = useSupabase();
+  const { signOut,session,username} = useSupabase();
 
 
-  
+  let [fontsLoaded] = useFonts({
+    Inter_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
 
   // Kullanıcı adını burada alın veya istediğiniz şekilde ayarlayın
-  const username = "John Doe"; 
 
   // Saat bilgisini alın
   const currentTime = new Date();
@@ -31,8 +36,8 @@ export default function TabOneScreen() {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.greetingContainer}>
-        <Text style={styles.greetingText}></Text>
-        <Text style={styles.usernameText}></Text>
+        <Text style={styles.greetingText}>{greeting}</Text>
+        <Text style={styles.usernameText}>{username?.toUpperCase()}</Text>
       </View>
     </View>
   );
@@ -53,11 +58,13 @@ const styles = StyleSheet.create({
   greetingText: {
     color: '#090A0A',
     fontSize: 32,
-    marginBottom: -10,  // John yazısını biraz daha üste çekmek için
+    marginBottom: -10, 
+    fontFamily:"Inter_700Bold" // John yazısını biraz daha üste çekmek için
   },
   usernameText: {
     fontSize: 32,
     color: '#FF2D55',
+    fontFamily:"Inter_700Bold" 
   },
   tabHeaderText: {
     fontSize: 24,
