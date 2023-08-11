@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     color: '#090A0A',
     fontSize: 32,
     marginBottom: -10, 
-    fontFamily:"Inter_700Bold" // John yazısını biraz daha üste çekmek için
+    fontFamily:"Inter_700Bold" 
   },
   usernameText: {
     fontSize: 32,
