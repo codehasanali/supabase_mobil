@@ -20,9 +20,6 @@ export default function TabOneScreen() {
   }
 
 
-  // Kullanıcı adını burada alın veya istediğiniz şekilde ayarlayın
-
-  // Saat bilgisini alın
   const currentTime = new Date();
   let greeting = "Good morning,";
 
